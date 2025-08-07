@@ -1,0 +1,22 @@
+# === GLOBAL IGNORE ===
+.DS_Store
+*.log
+*.env
+.env.local
+
+# === FRONTEND ===
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.next/
+
+# === BACKEND ===
+backend/target/
+backend/.idea/
+backend/.classpath
+backend/.project
+backend/.settings/
+
+# === SYSTEM FILES ===
+Thumbs.db
+*.swp
