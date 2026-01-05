@@ -18,8 +18,8 @@ export interface Course {
 }
 
 // Update the backend port here
-const API_BASE_URL = (import.meta as any).env.VITE_API_BASE_URL  || 'http://localhost:8080/api';
-const API_URL = `${API_BASE_URL}/courses`;
+const API_URL = 'http://localhost:8080/api/courses';
+
 export const courseService = {
   getAll: async (): Promise<Course[]> => {
     const response = await axios.get(API_URL);
