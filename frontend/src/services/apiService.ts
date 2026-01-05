@@ -1,5 +1,5 @@
 // src/services/apiService.ts
-const API_BASE_URL = (import.meta as any).env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL = (import.meta as any).env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 // Helper for requests with token
 const makeRequest = async (endpoint: string, options: RequestInit = {}) => {
   const token = localStorage.getItem('authToken');
