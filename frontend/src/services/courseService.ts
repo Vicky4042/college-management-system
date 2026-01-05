@@ -1,52 +1,49 @@
-import axios from 'axios';
+import api from "./api";
 
 export interface Course {
   id: string;
-  courseCode: string;        // added
-  courseName: string;        // added
-  description: string;       // added
+  courseCode: string;
+  courseName: string;
+  description: string;
   department: string;
   credits: number;
-  instructor: string;        // added
-  schedule: string;          // added
-  classroom: string;         // added
-  duration: string;          // added
-  semester: string;          // added
-  enrolledStudents: number;  // added
-  maxCapacity: number;       // added
-  prerequisites: string;     // added
+  instructor: string;
+  schedule: string;
+  classroom: string;
+  duration: string;
+  semester: string;
+  enrolledStudents: number;
+  maxCapacity: number;
+  prerequisites: string;
 }
-
-// Update the backend port here
-const API_URL = 'http://localhost:8080/api/courses';
 
 export const courseService = {
   getAll: async (): Promise<Course[]> => {
-    const response = await axios.get(API_URL);
+    const response = await api.get("/courses");
     return response.data;
   },
 
   getById: async (id: string): Promise<Course> => {
-    const response = await axios.get(`${API_URL}/${id}`);
+    const response = await api.get(`/courses/${id}`);
     return response.data;
   },
 
   create: async (data: Partial<Course>): Promise<Course> => {
-    const response = await axios.post(API_URL, data);
+    const response = await api.post("/courses", data);
     return response.data;
   },
 
   update: async (id: string, data: Partial<Course>): Promise<Course> => {
-    const response = await axios.put(`${API_URL}/${id}`, data);
+    const response = await api.put(`/courses/${id}`, data);
     return response.data;
   },
 
   delete: async (id: string): Promise<void> => {
-    await axios.delete(`${API_URL}/${id}`);
+    await api.delete(`/courses/${id}`);
   },
 
   getByDepartment: async (department: string): Promise<Course[]> => {
-    const response = await axios.get(`${API_URL}?department=${department}`);
+    const response = await api.get(`/courses?department=${department}`);
     return response.data;
   },
 };
