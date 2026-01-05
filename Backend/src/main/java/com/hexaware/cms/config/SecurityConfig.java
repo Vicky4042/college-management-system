@@ -66,10 +66,11 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOriginPatterns(Arrays.asList(
-            "http://localhost:5173",   // Vite frontend
-            "http://localhost:3000",   // React (if used)
-            "*"
-        ));
+    "http://localhost:5173",
+    "https://college-management-system-ihagayohr-vicky4042s-projects.vercel.app",
+    "*"
+));
+
 
         config.setAllowedMethods(Arrays.asList(
             "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
