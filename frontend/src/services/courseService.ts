@@ -1,49 +1,52 @@
-import api from "./api";
+import axios from 'axios';
 
 export interface Course {
   id: string;
-  courseCode: string;
-  courseName: string;
-  description: string;
+  courseCode: string;        // added
+  courseName: string;        // added
+  description: string;       // added
   department: string;
   credits: number;
-  instructor: string;
-  schedule: string;
-  classroom: string;
-  duration: string;
-  semester: string;
-  enrolledStudents: number;
-  maxCapacity: number;
-  prerequisites: string;
+  instructor: string;        // added
+  schedule: string;          // added
+  classroom: string;         // added
+  duration: string;          // added
+  semester: string;          // added
+  enrolledStudents: number;  // added
+  maxCapacity: number;       // added
+  prerequisites: string;     // added
 }
 
+// Update the backend port here
+const API_BASE_URL = (import.meta as any).env.VITE_API_BASE_URL  || 'http://localhost:8080/api';
+const API_URL = `${API_BASE_URL}/courses`;
 export const courseService = {
   getAll: async (): Promise<Course[]> => {
-    const response = await api.get("/courses");
+    const response = await axios.get(API_URL);
     return response.data;
   },
 
   getById: async (id: string): Promise<Course> => {
-    const response = await api.get(`/courses/${id}`);
+    const response = await axios.get(`${API_URL}/${id}`);
     return response.data;
   },
 
   create: async (data: Partial<Course>): Promise<Course> => {
-    const response = await api.post("/courses", data);
+    const response = await axios.post(API_URL, data);
     return response.data;
   },
 
   update: async (id: string, data: Partial<Course>): Promise<Course> => {
-    const response = await api.put(`/courses/${id}`, data);
+    const response = await axios.put(`${API_URL}/${id}`, data);
     return response.data;
   },
 
   delete: async (id: string): Promise<void> => {
-    await api.delete(`/courses/${id}`);
+    await axios.delete(`${API_URL}/${id}`);
   },
 
   getByDepartment: async (department: string): Promise<Course[]> => {
-    const response = await api.get(`/courses?department=${department}`);
+    const response = await axios.get(`${API_URL}?department=${department}`);
     return response.data;
   },
 };

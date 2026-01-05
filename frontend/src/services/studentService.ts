@@ -23,9 +23,9 @@ export interface StudentMark {
 }
 
 // Backend base URLs
-const STUDENT_API = 'http://localhost:8080/api/students';
-const MARKS_API = 'http://localhost:8080/api/marks';
-
+const API_BASE_URL = (import.meta as any).env.VITE_API_BASE_URL  || 'http://localhost:8080/api';
+const STUDENT_API = `${API_BASE_URL}/students`;
+const MARKS_API = `${API_BASE_URL}/marks`;
 export const studentService = {
   getAllStudents: async (): Promise<Student[]> => {
     const response = await axios.get(STUDENT_API);
