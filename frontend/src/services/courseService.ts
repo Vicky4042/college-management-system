@@ -18,7 +18,7 @@ export interface Course {
 }
 
 // Update the backend port here
-const API_URL = 'http://localhost:9090/api/courses';
+const API_URL = 'http://localhost:8080/api/courses';
 
 export const courseService = {
   getAll: async (): Promise<Course[]> => {

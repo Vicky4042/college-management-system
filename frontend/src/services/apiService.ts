@@ -1,5 +1,5 @@
 // src/services/apiService.ts
-const API_BASE_URL = 'http://localhost:9090/api';
+const API_BASE_URL = 'http://localhost:8080/api';
 
 // Helper for requests with token
 const makeRequest = async (endpoint: string, options: RequestInit = {}) => {

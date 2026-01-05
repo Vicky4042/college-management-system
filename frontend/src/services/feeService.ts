@@ -16,7 +16,7 @@ export interface FeeRecord {
 }
 
 // Update backend API URL
-const API_URL = 'http://localhost:9090/api/fees';
+const API_URL = 'http://localhost:8080/api/fees';
 
 export const feeService = {
   getAll: async (): Promise<FeeRecord[]> => {

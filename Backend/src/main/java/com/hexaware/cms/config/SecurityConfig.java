@@ -20,42 +20,69 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            // allow cross origin from your frontend dev servers
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-            // DEV MODE: allow all api calls (remove or tighten for production)
+        http
+            // ✅ Enable CORS
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
+            // ✅ Disable CSRF (required for APIs + frontend)
+            .csrf(csrf -> csrf.disable())
+
+            // ✅ Stateless session (JWT-style)
+            .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+
+            // ✅ Authorization rules
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/api/**").permitAll()   // <--- allow all /api for dev
+                .requestMatchers(
+                    "/",                    // root page
+                    "/error",               // error page
+                    "/h2-console/**",       // H2 console
+                    "/api/auth/**",         // auth APIs
+                    "/api/**"               // ALL APIs (DEV MODE)
+                ).permitAll()
                 .anyRequest().authenticated()
             );
 
-        // allow frames for H2 console
-        http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
+        // ✅ Allow H2 console iframe
+        http.headers(headers ->
+            headers.frameOptions(frame -> frame.sameOrigin())
+        );
 
         return http.build();
     }
 
+    // ✅ REQUIRED to fix PasswordEncoder error
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // CORS configuration that allows requests from your frontend (vite / react)
+    // ✅ CORS configuration for frontend
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(Arrays.asList("http://localhost:5173", "http://localhost:3000", "*"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        config.setAllowedOriginPatterns(Arrays.asList(
+            "http://localhost:5173",   // Vite frontend
+            "http://localhost:3000",   // React (if used)
+            "*"
+        ));
+
+        config.setAllowedMethods(Arrays.asList(
+            "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
+        ));
+
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source =
+            new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
+
         return source;
     }
 }

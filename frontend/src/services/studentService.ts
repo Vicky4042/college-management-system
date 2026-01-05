@@ -23,8 +23,8 @@ export interface StudentMark {
 }
 
 // Backend base URLs
-const STUDENT_API = 'http://localhost:9090/api/students';
-const MARKS_API = 'http://localhost:9090/api/marks';
+const STUDENT_API = 'http://localhost:8080/api/students';
+const MARKS_API = 'http://localhost:8080/api/marks';
 
 export const studentService = {
   getAllStudents: async (): Promise<Student[]> => {
